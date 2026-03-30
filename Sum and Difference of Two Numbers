@@ -1,0 +1,11 @@
+#include <stdio.h>
+int main() 
+{
+    int first_int, second_int;
+    float first_float, second_float;
+    scanf("%d %d", &first_int, &second_int);
+    scanf("%f %f", &first_float, &second_float);
+    printf("%d %d\n", first_int + second_int, first_int - second_int);
+    printf("%.1f %.1f\n", first_float + second_float, first_float - second_float);   
+    return 0;
+}
