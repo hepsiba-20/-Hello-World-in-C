@@ -1,0 +1,27 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+int longestValidParentheses(char* w) {
+    int max=0;
+    int top=-1;
+    int len=strlen(w);
+    int *stack=(int*)malloc((len+1)*sizeof(int));//cos will push extra -1 in stack
+    stack[++top]=-1;
+    for(int i=0;i<len;i++){
+        if(w[i]=='('){
+          stack[++top]=i;//using index
+        }
+        else{
+            top--;//pop
+            if(top==-1)
+            stack[++top]=i;//reset base
+        
+        else 
+        {int validlen=i-stack[top];
+        if(validlen>max)max=validlen;
+    }
+}
+    }
+    free(stack);
+    return max;
+}
