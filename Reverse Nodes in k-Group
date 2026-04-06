@@ -1,0 +1,53 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;  //+0x08
+ * };
+ */
+struct ListNode* reverseKGroup(struct ListNode* head, int k);
+__asm__(
+".global reverseKGroup\n"
+  "reverseKGroup:\n"
+  //"push %rbp\n"
+  //"movq %rsp, %rbp\n"
+  "movq %rsp, %r9\n"                           //%r9 = original %rsp
+  "cmp $0x01, %rsi\n" //if (k == 1)
+  "movq %rdi, %rax\n"
+  "je return\n"
+  "movq %rdi, %rcx\n"//ptr = head              //%rcx = ptr, %rdx = i
+  "xor %rdx, %rdx\n" //i = 0                   //%rax = new head, %r8 = tail
+  "xor %rax, %rax\n" //new head = null
+  "xor %r8, %r8\n"   //tail == null 
+  "1:\n"                                       //%rdi = head, %rsi = k
+  "movq %rcx, %r10\n"                          //%r10 = original ptr
+  "2:\n"
+  "inc %rdx\n"
+  "test %rcx, %rcx\n"
+  "je append_rest\n"
+  "push %rcx\n"
+  "movq 8(%rcx), %rcx\n" //ptr = ptr->next
+  "cmp %rsi, %rdx\n"
+  "jne 2b\n"
+  "test %r8, %r8\n"
+  "je append_first_node\n"
+  "jne append_to_tail\n"
+  "append_first_node:\n"
+  "pop %rax\n"
+  "movq %rax, %r8\n"       //tail = new head
+  "dec %rdx\n"
+  "test %rdx, %rdx\n"
+  "je 1b\n"
+  "append_to_tail:\n"
+  "pop 8(%r8)\n"
+  "movq 8(%r8), %r8\n"       //tail = tail->next
+  "dec %rdx\n"
+  "test %rdx, %rdx\n"
+  "je 1b\n"
+  "jne append_to_tail\n"
+  "append_rest:\n"
+  "movq %r10, 8(%r8)\n"  //tail->next = old ptr
+  "return:\n"
+  "movq %r9, %rsp\n"
+  "ret\n"
+  );
