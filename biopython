@@ -1,0 +1,17 @@
+from Bio.Seq import Seq
+def generate_sequences():
+    user_input = input("Enter your DNA sequence (e.g., ATGGCCATTGTAA): ").strip().upper()
+    try:
+        dna_seq = Seq(user_input)
+        complement = dna_seq.complement()
+        mrna = dna_seq.transcribe()
+        protein = mrna.translate(to_stop=True)
+        print("\n--- Results ---")
+        print(f"Original DNA: {dna_seq}")
+        print(f"Complement:   {complement}")
+        print(f"mRNA:          {mrna}")
+        print(f"Protein:       {protein}")
+    except Exception as e:
+        print(f"An error occurred: {e}. Please ensure you entered a valid DNA sequence.")
+if __name__ == "__main__":
+    generate_sequences()
